@@ -59,71 +59,84 @@ public class DateHelper {
 	public static final Map<String, String> DATE_REGEX = new HashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
 		{
+			/*
+			 * 12:08 PM
+			 */
+			put("^" + d2 + "-" + m2 + "-" + y4 + "$", defaultDateFormat);
 
-			put("^" + d2 + "-" + m2 + "-" + y4 + "$", defaultDateFormat); // 12:08 PM
-			
-			//"yyyy.MM.dd G 'at' HH:mm:ss z"	2001.07.04 AD at 12:08:56 PDT  
-			
+			/*
+			 * "yyyy.MM.dd G 'at' HH:mm:ss z" 2001.07.04 AD at 12:08:56 PDT
+			 */
 			put("^" + y4 + "." + M2 + "." + d2 + " AD at" + h2 + ":" + m2 + ":" + s2 + pdt + "?$",
-					"yyyy.MM.dd G 'at' HH:mm:ss z"); // 2001.07.04 AD at
-														// 12:08:56
-			// PDT
-
-			put("^" + e3_m3 + d2 + sp + a1 + ",\\s+'" + y2 + "$", "EEE, MMM d, ''yy"); // //Wed, Jul 4, '01
-
-			put("^" + ap + "$", "h:mm a"); // 12:08 PM
-
+					"yyyy.MM.dd G 'at' HH:mm:ss z");
+			
+			/*
+			 * 2001.07.04 AD at 12:08:56 PDT
+			 */
+			put("^" + e3_m3 + d2 + sp + a1 + ",\\s+'" + y2 + "$", "EEE, MMM d, ''yy");
+			
+			/*
+			 * Wed, Jul 4, '01
+			 */
+			put("^" + ap + "$", "h:mm a");
+			
+			/*
+			 * 12:08 PM
+			 */
 			put("^" + h2 + clock + sp + a1 + "$", "hh 'o''clock' a, zzzz");
 
-			// 12 o'clock PM, Pacific Daylight Time
+			/*
+			 * 12 o'clock PM, Pacific Daylight Time
+			 */
 			put("^" + h2 + clock + sp + a1 + "$", "hh 'o''clock' a");
-
-			put("^" + ka + ":" + m2 + " " + a1 + ",\\s+" + z1 + "$", "K:mm a, z"); // 0:08 PM, PDT
-
+			
+			/*
+			 * 0:08 PM, PDT
+			 */
+			put("^" + ka + ":" + m2 + " " + a1 + ",\\s+" + z1 + "$", "K:mm a, z");
+			
 			// todo
-			put("^" + sp + "AD" + sp + ap + "$", "yyyyy.MMMMM.dd GGG hh:mm aaa"); // 02001.July.04 AD 12:08 PM
-
+			/*
+			 * 02001.July.04 AD 12:08 PM
+			 */			
+			put("^" + sp + "AD" + sp + ap + "$", "yyyyy.MMMMM.dd GGG hh:mm aaa");
+			
+			/*
+			 * Wed, 4 Jul 2001 12:08:56-0700
+			 */			
 			put("^" + e3_d2_m3 + sp + y4 + sp + h2 + ":" + m2 + ":" + s2 + sp + "-" + z1 + "$",
-					"EEE, d MMM yyyy HH:mm:ss Z"); // Wed, 4 Jul 2001 12:08:56
-													// -0700
+					"EEE, d MMM yyyy HH:mm:ss Z");
 
-			put("^" + y2 + M2 + d2 + h2 + m2 + s2 +"-"+ z1 + "$", "yyMMddHHmmssZ"); // 010704120856-0700
+			/*
+			 *  010704120856-0700
+			 */
+			put("^" + y2 + M2 + d2 + h2 + m2 + s2 + "-" + z1 + "$", "yyMMddHHmmssZ"); 
 
+			/*
+			 * 2018-08-01 23:58:32.425
+			 */			
 			put("^" + y4 + "-" + M2 + "-" + d2 + sp + h2 + ":" + m2 + ":" + s2 + "\\." + s3 + "$",
-					"YYYY-MM-DD HH:MM:SS.fff"); // 2018-08-01 23:58:32.425 
+					"YYYY-MM-DD HH:MM:SS.fff"); 
 
+			/*
+			 * 2001-07-04T12:08:56.235-0700
+			 */
 			put("^" + y4 + "-" + M2 + "-" + d2 + t + h2 + ":" + m2 + ":" + s2 + "\\." + s3 + "-" + z1 + "$",
-					"yyyy-MM-dd'T'HH:mm:ss.SSSZ"); // 2001-07-04T12:08:56.235-0700 
-//dayOftheWeek
+					"yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+			/*
+			 * put("^" + y4 + "-" + w52 + "$", "YYYY-'W'ww-u"); // 2001-W27-3
+			 */
 			put("^" + y4 + "-" + M2 + "-" + d2 + t + h2 + ":" + m2 + ":" + s2 + "\\." + s3 + "-" + x3 + "$",
-					"yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); // 2001-07-04T12:08:56.235-07:00 
-			//put("^" + y4 + "-" + w52 + "$", "YYYY-'W'ww-u"); // 2001-W27-3
+					"yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); // 2001-07-04T12:08:56.235-07:00
+
+			/*
+			 * put("^" + y4 + "-" + w3 +"$", "YYYY-'W'ww-u"); // 2001-W27-3
+			 */
 			put("^\\d{4}-W\\d{2}-(\\d{1}|\\d{2})$", "YYYY-'W'ww-u");
-			//put("^" + y4 + "-" + w3 +"$", "YYYY-'W'ww-u"); // 2001-W27-3
+
 		}
 	};
-
-	public DateHelper() {
-		super();
-		formats = new ArrayList<String>();
-
-		this.formats.add("hh 'o''clock' a, zzzz");
-
-		this.formats.add("K:mm a, z");
-
-		this.formats.add("yyyyy.MMMMM.dd GGG hh:mm aaa");
-
-		this.formats.add("EEE, d MMM yyyy HH:mm:ss Z");
-
-		this.formats.add("yyMMddHHmmssZ");
-
-		this.formats.add("yyyy-MM-dd'T'HH:mm:ss.SSSZ"); //done
-
-		this.formats.add("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"); //done
-
-		this.formats.add("YYYY-'W'ww-u"); //done
-
-	}
 
 	public static String getDateFormat(String value_date) {
 		for (String date_format_case : DateHelper.DATE_REGEX.keySet()) {
@@ -132,7 +145,6 @@ public class DateHelper {
 				return DateHelper.DATE_REGEX.get(date_format_case);
 			}
 		}
-		// System.out.println( date_format_case);
 		System.out.println("failed parsing:	" + value_date);
 		return null;
 	}

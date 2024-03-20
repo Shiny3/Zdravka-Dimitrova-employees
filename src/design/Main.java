@@ -11,11 +11,8 @@ import model.ProjectPairWork;
 
 public class Main {
 
-	private static ReaderOpenCSV readerOpenCSV;
-
 	public Main() {
 		super();
-
 	}
 
 	public static void main(String[] args) throws IOException {

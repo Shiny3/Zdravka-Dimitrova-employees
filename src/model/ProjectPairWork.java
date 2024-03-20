@@ -11,10 +11,10 @@ public class ProjectPairWork {
 
 	/*
 	 * I made the record for more than a pair because of the example row. At
-	 * least... there cases I guess where there can exist more periods working on
-	 * the same project by different employee, or... should be done a comparison of
-	 * the period... if the period only include two people but sometimes they can
-	 * work alone too.
+	 * least... there are cases I guess where there can exist more periods working on
+	 * the same project by different employees, or... should be done a comparison of
+	 * the period... if the period only includes two people but sometimes they can
+	 * work on the project alone too.
 	 * 
 	 * @ArrayList<Long> is for one employee different periods of joining and with
 	 * its days (although) it is not so important for the current requirement
@@ -38,7 +38,7 @@ public class ProjectPairWork {
 	}
 
 	public void addEmployee(Long empID, Long daysWorked) {
-		
+
 		if (employees.containsKey(empID)) {
 			employees.get(empID).add(daysWorked);
 		} else {
@@ -49,25 +49,17 @@ public class ProjectPairWork {
 		this.addDays(daysWorked);
 	}
 
+	/*
+	 * sum the days with a new sorted
+	 */
 	public void addDays(Long days) {
-		
+
 		daysWorkedAll += days;
 	}
 
-	public Vector<String> fillRowDataGrid() {
-
-		Vector<String> rowDataGrid = new Vector<String>();
-
-		String employeesIDs = "";
-		for (Long employeeID : employees.keySet()) {
-			employeesIDs += Headers.EmployeeID.toString() + employeeID + " ";
-		}
-		rowDataGrid.addElement(employeesIDs);
-		rowDataGrid.addElement(projectID.toString());
-		rowDataGrid.addElement(daysWorkedAll.toString());
-		return rowDataGrid;
-	}
-
+	/*
+	 * Generate record of Project with  Employees and Days worked on it.
+	 */
 	public Object[] createProjectRow() {
 
 		Object[] rowDataGrid;
