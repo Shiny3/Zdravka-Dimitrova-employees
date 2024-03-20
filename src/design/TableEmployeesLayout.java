@@ -2,15 +2,10 @@ package design;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -30,7 +25,7 @@ public class TableEmployeesLayout {
 	public JFrame projectsTable(Map<Long, ProjectPairWork> projectID_Workers) {
 		
 		frameProjects = new JFrame();
-		frameProjects.setTitle("Sirma Projects");
+		frameProjects.setTitle("Sirma Solution Projects");
 
 		tableModel.addColumn(Headers.EmployeeIDs.toString());
 		tableModel.addColumn(Headers.ProjectID.toString());
@@ -65,8 +60,6 @@ public class TableEmployeesLayout {
 		frameProjects.setVisible(true);
 		frameProjects.show();
 		return frameProjects;
-		
-		
-	}
 
+	}
 }

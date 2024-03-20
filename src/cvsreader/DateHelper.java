@@ -145,6 +145,7 @@ public class DateHelper {
 				return DateHelper.DATE_REGEX.get(date_format_case);
 			}
 		}
+		// System.out.println( date_format_case);
 		System.out.println("failed parsing:	" + value_date);
 		return null;
 	}
