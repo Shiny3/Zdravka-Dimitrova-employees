@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DateHelper {
 
@@ -48,7 +51,7 @@ public class DateHelper {
 
 	private static final String y_ml_wd = y5 + "." + dayOftheWeek + ".\\d{2}"; // 02001.July.04
 
-	private static final String e3_m3 = "[a-zA-Z]{3}\\s+,[a-zA-Z]{3}\\s+,\\d{2}\\s+";// "([a-zA-Z]{3},\s+){2}";
+	private static final String e3_m3 = "[a-zA-Z]{3},\\s+[a-zA-Z]{3},\\s+\\d{2}\\s+";// "([a-zA-Z]{3},\s+){2}";
 																						// //![a-zA-Z]{3}\s+,[a-zA-Z]{3}\s+,\d{2}\s+
 	// ![a-zA-Z]{3}\s+[a-zA-Z]{3}\s+\d{2}\s+
 
@@ -69,54 +72,55 @@ public class DateHelper {
 			 */
 			put("^" + y4 + "." + M2 + "." + d2 + " AD at" + h2 + ":" + m2 + ":" + s2 + pdt + "?$",
 					"yyyy.MM.dd G 'at' HH:mm:ss z");
-			
+
 			/*
 			 * 2001.07.04 AD at 12:08:56 PDT
 			 */
-			put("^" + e3_m3 + d2 + sp + a1 + ",\\s+'" + y2 + "$", "EEE, MMM d, ''yy");
-			
+
 			/*
 			 * Wed, Jul 4, '01
 			 */
-			put("^" + ap + "$", "h:mm a");
-			
+			put("^" + e3_m3 + d2 + sp + a1 + ",\\s+'" + y2 + "$", "EEE, MMM d, ''yy");
+
 			/*
 			 * 12:08 PM
 			 */
+			put("^" + ap + "$", "h:mm a");
+
 			put("^" + h2 + clock + sp + a1 + "$", "hh 'o''clock' a, zzzz");
 
 			/*
 			 * 12 o'clock PM, Pacific Daylight Time
 			 */
 			put("^" + h2 + clock + sp + a1 + "$", "hh 'o''clock' a");
-			
+
 			/*
 			 * 0:08 PM, PDT
 			 */
 			put("^" + ka + ":" + m2 + " " + a1 + ",\\s+" + z1 + "$", "K:mm a, z");
-			
+
 			// todo
 			/*
 			 * 02001.July.04 AD 12:08 PM
-			 */			
+			 */
 			put("^" + sp + "AD" + sp + ap + "$", "yyyyy.MMMMM.dd GGG hh:mm aaa");
-			
+
 			/*
 			 * Wed, 4 Jul 2001 12:08:56-0700
-			 */			
+			 */
 			put("^" + e3_d2_m3 + sp + y4 + sp + h2 + ":" + m2 + ":" + s2 + sp + "-" + z1 + "$",
 					"EEE, d MMM yyyy HH:mm:ss Z");
 
 			/*
-			 *  010704120856-0700
+			 * 010704120856-0700
 			 */
-			put("^" + y2 + M2 + d2 + h2 + m2 + s2 + "-" + z1 + "$", "yyMMddHHmmssZ"); 
+			put("^" + y2 + M2 + d2 + h2 + m2 + s2 + "-" + z1 + "$", "yyMMddHHmmssZ");
 
 			/*
 			 * 2018-08-01 23:58:32.425
-			 */			
+			 */
 			put("^" + y4 + "-" + M2 + "-" + d2 + sp + h2 + ":" + m2 + ":" + s2 + "\\." + s3 + "$",
-					"YYYY-MM-DD HH:MM:SS.fff"); 
+					"YYYY-MM-DD HH:MM:SS.fff");
 
 			/*
 			 * 2001-07-04T12:08:56.235-0700
@@ -145,32 +149,72 @@ public class DateHelper {
 				return DateHelper.DATE_REGEX.get(date_format_case);
 			}
 		}
-		// System.out.println( date_format_case);
 		System.out.println("failed parsing:	" + value_date);
 		return null;
 	}
 
 	public static Date convertDate(String value_date) {
-
-		String format = DateHelper.getDateFormat(value_date);
-
-		if (format == null)
-			format = defaultDateFormat;
-
-		if (value_date.equals("NULL")) {
-			return new Date();
-		}
-
-		SimpleDateFormat fmt = new SimpleDateFormat(format);
 		Date date = null;
+		String format = DateHelper.getDateFormat(value_date);
 		try {
-
+			if(value_date.equals("NULL")) 
+				return new Date();
+			if (format == null)
+				format = defaultDateFormat;
+			SimpleDateFormat fmt = new SimpleDateFormat(format);
 			date = fmt.parse(value_date);
-
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return date;
+	}
+
+	public static Date convertDate(String value_date, String format) {
+		Date date = null;
+		try {
+			if (value_date.equals("NULL")) {
+				return new Date();
+			}
+			SimpleDateFormat fmt = new SimpleDateFormat(format);
+			date = fmt.parse(value_date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	public static ArrayList<String> matchestDates(String dates) {
+
+		if (dates.startsWith("NULL")) {
+
+		//	return new Date();
+		}
+
+		for (String date_format_case : DateHelper.DATE_REGEX.keySet()) {
+			ArrayList<String> matched_dates = datesMatcher(dates, date_format_case);
+			if (matched_dates.size() == 2) {
+				matched_dates.add(date_format_case);
+				System.out.println(matched_dates);
+			}
+		}
+		return null;
+	}
+
+	//todo null date
+	public static ArrayList<String> datesMatcher(String dates, String regex) {
+
+		ArrayList<String> dates_seperated = new ArrayList<String>();
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(dates);
+
+		MatchResult result = matcher.toMatchResult();
+		//System.out.println("Current Matcher: " + result);
+
+		while (matcher.find()) {
+			dates_seperated.add(matcher.group());
+			System.out.println("group: " + matcher.group());
+		}
+		return dates_seperated;
 	}
 
 }

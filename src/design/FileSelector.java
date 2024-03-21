@@ -22,7 +22,7 @@ class FileSelector extends JFrame implements ActionListener {
 
 	private static final String lblReadButton = "Choose And Open CVS File.";
 
-	private static final String EMPLOYEE_CSV_FILE_PATH = "\\src\\sources\\employee_data_777.csv";
+	public static final String EMPLOYEE_CSV_FILE_PATH = "\\src\\sources\\employee_data_777.csv";
 
 	public static JFrame fileWindow() {
 

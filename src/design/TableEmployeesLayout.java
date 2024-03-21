@@ -32,12 +32,12 @@ public class TableEmployeesLayout {
 		tableModel.addColumn(Headers.Days.toString());
 
 		for (ProjectPairWork project : ReaderOpenCSV.projectID_Workers.values()) {
-			System.out.println(project.toString());
+			//System.out.println(project.toString());//undo
 			tableModel.addRow(project.createProjectRow());
 		}
 
 		projectsTable = new JTable(tableModel);
-		projectsTable.setBounds(600, 400, 500, 700);
+		projectsTable.setBounds(200, 400, 500, 700);
 
 		JScrollPane sp = new JScrollPane(projectsTable);
 		frameProjects.add(sp, BorderLayout.CENTER);
@@ -47,7 +47,7 @@ public class TableEmployeesLayout {
 		frameProjects.add(sp);
 		//frameProjects.setSize(500, 200);
 		frameProjects.setVisible(true);
-		frameProjects.setLocation(800, 400);
+		frameProjects.setLocation(400, 400);
 		
 		frameProjects.setAlwaysOnTop(true);
 		frameProjects.setBackground(Color.PINK);
