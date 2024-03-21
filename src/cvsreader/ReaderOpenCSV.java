@@ -32,35 +32,25 @@ public class ReaderOpenCSV {
 
 	public static String[] splitter(String sentence, char delimiter, int LIMIT_COUNTER_WORDS) {
 
-		int number_of_words = 0;
 		int index_beginning = 0;
+		int cnt_word = 0;
+		int condition = LIMIT_COUNTER_WORDS-1;
+		String[] words = new String[LIMIT_COUNTER_WORDS+1];
 
-		Integer[] positionsDelimiter = new Integer[LIMIT_COUNTER_WORDS + 1];
-		String[] words = new String[LIMIT_COUNTER_WORDS + 1];
-
-		for (Integer position_delimiter = 0; position_delimiter < sentence.length()
-				&& LIMIT_COUNTER_WORDS != number_of_words; position_delimiter++) {
+		for (Integer position_delimiter = 0; position_delimiter < sentence.length(); position_delimiter++) {
 
 			if (sentence.charAt(position_delimiter) == delimiter) {
-
-				positionsDelimiter[number_of_words] = position_delimiter;
-				number_of_words++;
+				words[cnt_word] = sentence.substring(index_beginning, position_delimiter);
+				index_beginning = position_delimiter+ 1;
+				cnt_word++;
 			}
+			if (cnt_word == condition) {
+				words[cnt_word] = sentence.substring(index_beginning, sentence.length());
+				//number_of_words++;
+				break;
+			}	
+
 		}
-
-		/*
-		 * if (LIMIT_COUNTER_WORDS != number_of_words+1) {
-		 * return null;
-		 * }
-		 */
-
-		for (int cnt_word = 0; cnt_word <= LIMIT_COUNTER_WORDS - 1; cnt_word++) {
-
-			words[cnt_word] = sentence.substring(index_beginning, positionsDelimiter[cnt_word]);
-			index_beginning = positionsDelimiter[cnt_word] + 1;
-		}
-
-		words[LIMIT_COUNTER_WORDS] = sentence.substring(index_beginning, sentence.length());
 
 		for (String word : words) {
 			System.out.println(word);
@@ -76,14 +66,13 @@ public class ReaderOpenCSV {
 		char delimiter = ',';
 		try (BufferedReader buffered_reader = new BufferedReader(new FileReader(path))) {
 
-			LineReader line_reader = new LineReader(buffered_reader, false);
 			String employee_record;
 
-			line_reader.readLine();
+			buffered_reader.readLine();
 			
-			while ((employee_record = line_reader.readLine()) != null) {
+			while ((employee_record = buffered_reader.readLine()) != null) {
 
-				String[] splitted_record = splitter(employee_record, delimiter, 2);
+				String[] splitted_record = splitter(employee_record, delimiter, 3);
 
 				Long emplID = Long.parseLong(splitted_record[0]);
 				Long proID = Long.parseLong(splitted_record[1]);
@@ -98,7 +87,8 @@ public class ReaderOpenCSV {
 				int length = dates_csv.length();
 				System.out.println(dates_csv);		
 					
-				/*if(index!=0 && dates_csv.substring(index+1, length).indexOf(delimiter)!=0)
+				/*
+				if(index!=0 && dates_csv.substring(index+1, length).indexOf(delimiter)!=0)
 				{
 					if (dates.size() == 2) {
 						from = DateHelper.convertDate(dates.get(0), dates.get(2));
@@ -106,11 +96,16 @@ public class ReaderOpenCSV {
 					}  
 				}
 				else {
-					}			
+
+				}			
 				*
 				*/
-					from = DateHelper.convertDate(dates_csv.substring(0, index));
-					to = DateHelper.convertDate(dates_csv.substring(index+1, length));
+				String dateFrom = dates_csv.substring(0, index);
+				System.out.println(dateFrom);	
+				String dateTo = dates_csv.substring(index+1, length);
+				System.out.println(dateTo);	
+				from = DateHelper.convertDate(dateFrom);
+				to = DateHelper.convertDate(dateTo);
 
 
 				Employee employee = new Employee();
@@ -138,7 +133,7 @@ public class ReaderOpenCSV {
 				}
 				employees.add(employee);
 			}
-
+			 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
