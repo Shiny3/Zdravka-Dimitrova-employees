@@ -1,6 +1,7 @@
 package design;
 
 import java.nio.file.FileSystems;
+import java.text.ParseException;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -73,7 +74,7 @@ class FileSelector extends JFrame implements ActionListener {
 				if (FileSelector.filePath != null && !FileSelector.filePath.equals(""))
 					try {
 					 tableProjects.projectsTable(readerOpenCSV.readEmployees(FileSelector.filePath));
-					} catch (IOException e) {
+					} catch (IOException | ParseException e) {
 						e.printStackTrace();
 					}
 
