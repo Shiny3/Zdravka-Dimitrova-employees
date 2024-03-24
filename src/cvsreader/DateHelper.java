@@ -17,7 +17,7 @@ public class DateHelper {
 
 	public ArrayList<String> formats;
 
-	private static final String delimiter = "(-|\\|/|\\.)";// s|-|\\? ...: escape : \
+private static final String delimiter = "(-|\\|/|\\.)";// s|-|\\? ...: escape : \
 	private static final String delimiter_dash = "-";
 	private static final String sp = "\\s+";
 	private static final String a1 = "([AaPp][Mm])?";// "a";
@@ -25,7 +25,7 @@ public class DateHelper {
 	private static final String w52 = "\\d{4}-W\\d{2}-\\d+";
 	private static final String w3 = "(W([1-9]|[1-5][0-2]))";// "'W'ww";
 	private static final String t = "T";// "'t'";
-	private static final String year55 = "\\d\\d\\d\\d\\d";
+private static final String year55 = "\\d\\d\\d\\d\\d";
 	private static final String year = "\\d\\d\\d\\d";
 	// private static final String year55 = "(\\d\\d{2}|d{4})";// "yyyy";
 	private static final String year1 = "(\\d?((\\d{2})|(19[7-9]\\d)|(20\\d{4}))))";// "yyyy";
@@ -106,7 +106,7 @@ public class DateHelper {
 			 */
 			put("YYYY-'W'ww-u", "(\\d{4}-W(\\d{1}|\\d{2})-(\\d{1}|\\d{2}))");
 
-			// todo difference of this format;
+		// todo difference of this format;
 			/*
 			 * 02001.July.04 AD 12:08 PM
 			 */
@@ -155,7 +155,7 @@ public class DateHelper {
 			 */
 			put("K:mm a, z", "(" + ka + ":" + m2 + " " + a1 + ",\\s+" + z1 + ")");
 		}
-	};
+		};
 
 	public static Date convertDate(String value_date, String format) {
 		Date date = null;
@@ -185,7 +185,7 @@ public class DateHelper {
 			Date today = new Date();
 			matched_dates.add(0, today);
 			matched_dates.add(0, today);
-			return matched_dates;
+return matched_dates;
 		}
 
 		if (dates.endsWith("NULL")) {
@@ -226,17 +226,17 @@ public class DateHelper {
 			for (Entry<String, String> date_format_case : DateHelper.LONG_DATES_REGEX_FORMATS.entrySet()) {
 				matched_dates = datesMatcher(dates, date_format_case);
 				if (matched_dates.size() == 2) {
-					// System.out.println("date format: " + date_format_case);
-					// System.out.println(" " + matched_dates);
-					return matched_dates;
-				}
+				// System.out.println("date format: " + date_format_case);
+				// System.out.println(" " + matched_dates);
+				return matched_dates;
 			}
+}
 		}
 
 		return matched_dates;
 	}
 
-	public static ArrayList<Date> datesMatcher(String dates, Entry<String, String> regex) {
+		public static ArrayList<Date> datesMatcher(String dates, Entry<String, String> regex) {
 
 		ArrayList<Date> dates_seperated = new ArrayList<Date>();
 		Pattern pattern = Pattern.compile(regex.getValue());
@@ -252,7 +252,7 @@ public class DateHelper {
 		return dates_seperated;
 	}
 
-	public static String getDateFormat(String value_date) {
+public static String getDateFormat(String value_date) {
 		for (Entry<String, String> date_format_case : DateHelper.LONG_DATES_REGEX_FORMATS.entrySet()) {
 			if (value_date.matches(date_format_case.getValue())) {
 				// System.out.println("success parsing: " + date_format_case.getKey());
